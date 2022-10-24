@@ -1,3 +1,5 @@
+package controladorWeb;
+
 
 import accesoABaseDeDatos.ConexionBaseNeo4j;
 import java.io.IOException;
@@ -21,9 +23,10 @@ public class CControladorCargaCSVs extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Entrando");
-        ConexionBaseNeo4j conexion = new ConexionBaseNeo4j();
-        Connection bd = conexion.conexion();
+        System.out.println("Entrando Do get");
+        ConexionBaseNeo4j conexion1 = new ConexionBaseNeo4j();
+        Connection bd = conexion1.conexion();
+        
         String cargarCSVClientes;
         String cargarCSVCompras;
         String cargarCSVMarcas;
@@ -51,5 +54,11 @@ public class CControladorCargaCSVs extends HttpServlet {
         request.getRequestDispatcher("CargarCSVs.jsp").forward(request, response);
     }
     
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+       
+        }   
 
 }
