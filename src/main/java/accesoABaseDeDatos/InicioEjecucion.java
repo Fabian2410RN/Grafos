@@ -1,7 +1,7 @@
 
 package accesoABaseDeDatos;
 
-import controladorWeb.CargarCSVs;
+import controladorWeb.ControladorCargarCSVs;
 
 /**
  *
@@ -9,7 +9,7 @@ import controladorWeb.CargarCSVs;
  */
 public class InicioEjecucion {
     public static void main(String[] args) throws Exception {
-       CargarCSVs csv = new CargarCSVs();
+       ControladorCargarCSVs csv = new ControladorCargarCSVs();
        csv.agregarCSVClientes();
     }
 }

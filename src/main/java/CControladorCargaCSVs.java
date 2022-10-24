@@ -1,16 +1,27 @@
-package controladorWeb;
 
 import accesoABaseDeDatos.ConexionBaseNeo4j;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author Estadm
  */
-public class CargarCSVs {
-    public void agregarCSVClientes(){
+@WebServlet(name = "CControladorCargaCSVs", urlPatterns = {"/vistaWeb/CargarCSVs"})
+public class CControladorCargaCSVs extends HttpServlet {
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        System.out.println("Entrando");
         ConexionBaseNeo4j conexion = new ConexionBaseNeo4j();
         Connection bd = conexion.conexion();
         String cargarCSVClientes;
@@ -28,7 +39,7 @@ public class CargarCSVs {
             PreparedStatement csvCompras = bd.prepareStatement(cargarCSVCompras);
             PreparedStatement csvMarcas = bd.prepareStatement(cargarCSVMarcas);
             PreparedStatement csvProductos = bd.prepareStatement(cargarCSVProductos);
-            System.out.println(csvClientes);
+            
             csvClientes.executeUpdate();
             csvCompras.executeUpdate();
             csvMarcas.executeUpdate();
@@ -37,5 +48,8 @@ public class CargarCSVs {
         }catch(SQLException ex){
             System.out.println("Error");
         }
+        request.getRequestDispatcher("CargarCSVs.jsp").forward(request, response);
     }
+    
+
 }

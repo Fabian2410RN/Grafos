@@ -19,8 +19,8 @@ public class ConexionBaseNeo4j {
     
     public Connection conexion(){
         Connection con = null;
-        System.out.println("Entrando");
         try{
+            System.out.println("Estoy entrando en el try");
             Class.forName("org.neo4j.jdbc.Driver");
             con = (Connection) DriverManager.getConnection("jdbc:neo4j:bolt://localhost/?user=neo4j,password=1234,scheme=basic");
             System.out.println("Conexion establecida");
