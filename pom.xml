@@ -68,6 +68,7 @@
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-jdbc-driver</artifactId>
             <version>4.0.5</version>
+            <scope>runtime</scope>
         </dependency>
     
         <dependency>
@@ -105,10 +106,8 @@
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
-            
         </dependency>
         
-
     </dependencies>
 
     <build>
