@@ -25,7 +25,11 @@ public class HelloWorldExample implements AutoCloseable {
     @SuppressWarnings("deprecation")
     public void printGreeting(final String message) {
         try (Session session = driver.session()) {
-            session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Clientes.csv' AS clientes create (c1:Cliente {id: clientes.id, first_name: clientes.first_name, last_name: clientes.last_name})");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Clientes.csv' AS clientes create (c1:Cliente {id: clientes.id, first_name: clientes.first_name, last_name: clientes.last_name})");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Compras.csv' AS compras create (c2:Compra {idCliente: compras.idCliente, idProducto: compras.idProducto, cantidad: compras.cantidad})");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Marcas.csv' AS marcas create (c3:Marca {id: marcas.id, nombre: marcas.nombre, pais: marcas.pais})");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Productos.csv' AS productos create (c4:producto {id: productos.id, nombre: productos.nombre, marca: productos.marca, precio: productos.precio})");
+        //System.out.println(cargarCSVClientes);
         }
     }
     /*
