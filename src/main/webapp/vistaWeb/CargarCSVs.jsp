@@ -20,7 +20,7 @@
                 <div class="card-header">
                     <h1>Carga exitosa</h1>
                     <div>
-                        <img src="../imagenesVista/Imagen5.png"/>
+                        <img src="../imagenesVista/1.png"/>
                     </div>
                 </div>
                 <br>                   
