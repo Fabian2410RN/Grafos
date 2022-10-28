@@ -24,16 +24,9 @@ public class CControladorCargaCSVs extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Entrando Do get");
-<<<<<<< Updated upstream
         ConexionBaseDeDatosNeo4j greeter = new ConexionBaseDeDatosNeo4j("bolt://localhost:7687", "neo4j", "1234");
-        greeter.cargarCSVs("Hola");
-=======
-        //ConexionBaseNeo4j conexion1 = new ConexionBaseNeo4j();
-        //Connection bd = conexion1.conexion();
-        HelloWorldExample greeter = new HelloWorldExample("bolt://localhost:7687", "neo4j", "12345");
-        greeter.printGreeting("Hola");
->>>>>>> Stashed changes
-        System.out.println("Hecho");
+        greeter.cargarCSVs();
+
         
         request.getRequestDispatcher("CargarCSVs.jsp").forward(request, response);
     }

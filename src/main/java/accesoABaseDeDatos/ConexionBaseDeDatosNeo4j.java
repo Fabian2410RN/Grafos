@@ -23,22 +23,18 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
     }
 
     @SuppressWarnings("deprecation")
-    public void cargarCSVs(final String message) {
+    public void cargarCSVs() {
         try (Session session = driver.session()) {
-<<<<<<< Updated upstream:src/main/java/accesoABaseDeDatos/ConexionBaseDeDatosNeo4j.java
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Clientes.csv' AS clientes create (c1:Cliente {id: clientes.id, first_name: clientes.first_name, last_name: clientes.last_name})");
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Compras.csv' AS compras create (c2:Compra {idCliente: compras.idCliente, idProducto: compras.idProducto, cantidad: compras.cantidad})");
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Marcas.csv' AS marcas create (c3:Marca {id: marcas.id, nombre: marcas.nombre, pais: marcas.pais})");
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Estadm/Downloads/CSV/Productos.csv' AS productos create (c4:Producto {id: productos.id, nombre: productos.nombre, marca: productos.marca, precio: productos.precio})");
-  
-=======
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Agustin%20Arias/Desktop/Clientes.csv' AS clientes create (c1:Cliente {id: clientes.id, first_name: clientes.first_name, last_name: clientes.last_name})");
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Agustin%20Arias/Desktop/Compras.csv' AS compras create (c2:Compra {idCliente: compras.idCliente, idProducto: compras.idProducto, cantidad: compras.cantidad})");
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Agustin%20Arias/Desktop/Marcas.csv' AS marcas create (c3:Marca {id: marcas.id, nombre: marcas.nombre, pais: marcas.pais})");
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Agustin%20Arias/Desktop/Productos.csv' AS productos create (c4:producto {id: productos.id, nombre: productos.nombre, marca: productos.marca, precio: productos.precio})");
-        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/Users/Agustin%20Arias/Desktop/Productos.csv' AS row MATCH (a:producto {marca: row.marca})MATCH (b:Marca {nombre: row.marca})MERGE (a)-[:producido_por]->(b)RETURN *;");
-        //System.out.println(cargarCSVClientes);
->>>>>>> Stashed changes:src/main/java/accesoABaseDeDatos/HelloWorldExample.java
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Clientes.csv' AS clientes create (c1:Cliente {id: clientes.id, first_name: clientes.first_name, last_name: clientes.last_name})");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Compras.csv' AS compras create (c2:Compra {idCliente: compras.idCliente, idProducto: compras.idProducto, cantidad: compras.cantidad})");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Marcas.csv' AS marcas create (c3:Marca {id: marcas.id, nombre: marcas.nombre, pais: marcas.pais})");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Productos.csv' AS productos create (c4:Producto {id: productos.id, nombre: productos.nombre, marca: productos.marca, precio: productos.precio})");
+        
+        //Relaciones
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Clientes.csv' AS row MATCH (a:Cliente {id: row.id}) MATCH (b:Compra {idCliente: row.id}) MERGE (a)-[:realiza_una]->(b) RETURN *;");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Compras.csv' AS row MATCH (a:Compra {idProducto: row.idProducto}) MATCH (b:Producto {id: row.idProducto}) MERGE (a)-[:incluye_un]->(b) RETURN *;");
+        session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Productos.csv' AS row MATCH (a:Producto {marca: row.marca}) MATCH (b:Marca {nombre: row.marca})MERGE (a)-[:producido_por]->(b)RETURN *;");
+        
         }
     }
     /*
