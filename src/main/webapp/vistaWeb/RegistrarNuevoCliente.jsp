@@ -6,7 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% String mensaje = "<script text/javascript>alert('Esto se debe de mostrar en el msgbox');</script>"; 
+
+%>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,9 +40,10 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class= "btn btn-primary">
-                            Registrar 
+                            Registrar
                         </button>
                         <a href="../index.html">Cancelar</a>
+                        
                     </div>
                 </form>
             </div>

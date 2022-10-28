@@ -38,7 +38,8 @@ public class ControladorRegistrarNuevoCliente extends HttpServlet {
         ConexionBaseDeDatosNeo4j nuevoNodo = new ConexionBaseDeDatosNeo4j("bolt://localhost:7687", "neo4j", "1234");
         id = nuevoNodo.obtenerCantidadDeClientes();
         nuevoNodo.crearNuevoNodoCliente(id, nombre, apellidos);
-        System.out.println(id);
+               
         response.setContentType("text/html;charset=UTF-8");
+        request.getRequestDispatcher("RegistrarNuevoCliente.jsp").forward(request, response);
     }
 }
