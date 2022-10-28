@@ -2,6 +2,7 @@
 
 package accesoABaseDeDatos;
 
+
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
@@ -9,6 +10,7 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 
 import static org.neo4j.driver.Values.parameters;
+import static scala.concurrent.Await.result;
 
 public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
     private final Driver driver;
@@ -35,6 +37,39 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Compras.csv' AS row MATCH (a:Compra {idProducto: row.idProducto}) MATCH (b:Producto {id: row.idProducto}) MERGE (a)-[:incluye_un]->(b) RETURN *;");
         session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Productos.csv' AS row MATCH (a:Producto {marca: row.marca}) MATCH (b:Marca {nombre: row.marca})MERGE (a)-[:producido_por]->(b)RETURN *;");
         
+        }
+    }
+    
+    public void crearNuevoNodoCliente(int id, String nombre, String apellidos) {
+        try (Session session = driver.session()) {
+            session.run("Create(c:Cliente{id: '"+id+"', first_name: '"+nombre+"', last_name: '"+apellidos+"'})");
+        }
+    }
+    
+    public int obtenerCantidadDeClientes() {
+        int cantFinal = 0;
+        try (Session session = driver.session()) {
+            org.neo4j.driver.Record cantClientes = null;
+            Result result = session.run("MATCH (n:Cliente) RETURN count(n) AS count");
+            System.out.println("Imprimiendo numeros");
+            cantClientes = result.next();
+            int cant = cantClientes.get("count").asInt();
+            System.out.println(cant);
+            /*
+            while (result.hasNext())
+            {
+                org.neo4j.driver.Record record = result.next();
+                //System.out.println(record.get("id").asString());
+                int cant = record.get("id").asInt();
+                //cantFinal = (Integer.parseInt(cant));
+            }
+            */
+            
+            return cant+1;
+            //System.out.println(result);
+            //String dd = result.toString();
+            //int cantFinal = (Integer.parseInt(dd));
+            //return cantFinal+1;
         }
     }
     /*
