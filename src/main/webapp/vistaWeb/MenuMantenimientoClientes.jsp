@@ -43,7 +43,7 @@
                     </div>
                     <br>
                     <br>
-                    <a class="btn btn-secondary" href="vistaWeb/RegistroClientes.jsp"> Modificar datos de cliente</a>
+                    <a class="btn btn-secondary" href="ModificarDatosCliente.jsp"> Modificar datos de cliente</a>
                 </div>
                 <div class="col">
                     <br>

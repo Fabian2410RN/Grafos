@@ -46,6 +46,19 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         }
     }
     
+    public void modificarNombreCliente(int id, String nombre) {
+        try (Session session = driver.session()) {
+            session.run("match (n:Cliente) where n.id = '"+id+"' set n.first_name = '"+nombre+"'");
+        }
+    }
+    
+    public void modificarApellidosCliente(int id, String apellidos) {
+        //id = (Integer.parseInt(id));
+        try (Session session = driver.session()) {
+            session.run("match (n:Cliente) where n.id = '"+id+"' set n.last_name = '"+apellidos+"'");
+        }
+    }
+    
     public int obtenerCantidadDeClientes() {
         int cantFinal = 0;
         try (Session session = driver.session()) {
