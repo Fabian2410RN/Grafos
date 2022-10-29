@@ -36,7 +36,7 @@ public class ControladorModificarDatosCliente extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String apellidos = request.getParameter("apellidos");
         
-        ConexionBaseDeDatosNeo4j modificarNodo = new ConexionBaseDeDatosNeo4j("bolt://localhost:7687", "neo4j", "1234");
+        ConexionBaseDeDatosNeo4j modificarNodo = new ConexionBaseDeDatosNeo4j();
         
         if("".equals(nombre) && "".equals(apellidos)){
             System.out.println("Escriba un campo");

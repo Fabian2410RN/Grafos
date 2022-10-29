@@ -53,7 +53,7 @@
                     </div>
                     <br>
                     <br>
-                    <a class="btn btn-secondary" href="vistaWeb/SeleccionDeDeposito.jsp"> Eliminar cliente</a>
+                    <a class="btn btn-secondary" href="EliminarNodoClienteConSinRelacion.jsp"> Eliminar cliente</a>
                 </div>
             </div>
             <br>

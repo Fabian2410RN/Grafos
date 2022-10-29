@@ -15,7 +15,10 @@ import static scala.concurrent.Await.result;
 public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
     private final Driver driver;
     
-    public ConexionBaseDeDatosNeo4j(String uri, String user, String password) {
+    public ConexionBaseDeDatosNeo4j() {
+        String uri = "bolt://localhost:7687";
+        String user = "neo4j";
+        String password = "1234";
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
     }
 
@@ -59,8 +62,40 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         }
     }
     
+    public void eliminarNodoClienteSinRelacion(int id) {
+        //id = (Integer.parseInt(id));
+        try (Session session = driver.session()) {
+            session.run("match (n:Cliente) where n.id = '"+id+"' delete n");
+        }
+    }
+    
+    public void eliminarNodoClienteConRelacion(int id) {
+        //id = (Integer.parseInt(id));
+        try (Session session = driver.session()) {
+            //session.run("match (n:Cliente) where n.id = '"+id+"' set n.last_name = '"+apellidos+"'");
+        }
+    }
+    
+    public int verificarRelacionNodoCliente(int id) {
+        try (Session session = driver.session()) {
+            //org.neo4j.driver.Record valor = null;
+            int contador = 0;
+            Result result = session.run("match (c:Cliente {id:'"+id+"'})-->(n) return n;");
+            while (result.hasNext())
+            {
+                org.neo4j.driver.Record record = result.next();
+                //System.out.println(record.get("id").asString());
+                contador += 1;
+                //cantFinal = (Integer.parseInt(cant));
+            }
+            if(contador != 0){
+             return 0;
+            }
+        }
+        return 1;
+    }
+    
     public int obtenerCantidadDeClientes() {
-        int cantFinal = 0;
         try (Session session = driver.session()) {
             org.neo4j.driver.Record cantClientes = null;
             Result result = session.run("MATCH (n:Cliente) RETURN count(n) AS count");
