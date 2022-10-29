@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <br>
-                <form method="post" action="<c:url value="/vistaWeb/ModificarDatosCliente"/>" >
+                <form method="post" action="<c:url value="/vistaWeb/ModificarDatosProducto"/>" >
                     <div class="form-group">
                         <label>ID</label>
                         <input type="text" class "form-control" name = "id" placeholder="ID" required="Debe ingresar el ID">
@@ -35,8 +35,12 @@
                         <input type="text" class "form-control" name = "nombre" placeholder="Nombre">
                     </div>
                     <div class="form-group">
-                        <label>Apellidos</label>
-                        <input type="text" class "form-control" name = "apellidos" placeholder="Primer apellido">
+                        <label>Marca</label>
+                        <input type="text" class "form-control" name = "marca" placeholder="Marca">
+                    </div>
+                    <div class="form-group">
+                        <label>Precio</label>
+                        <input type="text" class "form-control" name = "precio" placeholder="Precio">
                     </div>
                     <div class="form-group">
                         <button type="submit" class= "btn btn-primary">

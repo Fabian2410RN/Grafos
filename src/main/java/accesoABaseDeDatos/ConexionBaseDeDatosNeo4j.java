@@ -43,12 +43,20 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         }
     }
     
+    //CREAR NODOS CLIENTES Y PRODUCTOS
     public void crearNuevoNodoCliente(int id, String nombre, String apellidos) {
         try (Session session = driver.session()) {
             session.run("Create(c:Cliente{id: '"+id+"', first_name: '"+nombre+"', last_name: '"+apellidos+"'})");
         }
     }
     
+    public void crearNuevoNodoProducto(int id, String nombre, String marca, String precio) {
+        try (Session session = driver.session()) {
+            session.run("Create(c4:Producto{id: '"+id+"', nombre: '"+nombre+"', marca: '"+marca+"', precio: '"+precio+"'})");
+        }
+    }
+    
+    //MODIFICAR CLIENTES Y PRODUCTOS
     public void modificarNombreCliente(int id, String nombre) {
         try (Session session = driver.session()) {
             session.run("match (n:Cliente) where n.id = '"+id+"' set n.first_name = '"+nombre+"'");
@@ -61,7 +69,26 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             session.run("match (n:Cliente) where n.id = '"+id+"' set n.last_name = '"+apellidos+"'");
         }
     }
-        
+    
+    public void modificarNombreProducto(int id, String nombre) {
+        try (Session session = driver.session()) {
+            session.run("match (n:Producto) where n.id = '"+id+"' set n.nombre = '"+nombre+"'");
+        }
+    }
+    
+    public void modificarMarcaProducto(int id, String marca) {
+        try (Session session = driver.session()) {
+            session.run("match (n:Producto) where n.id = '"+id+"' set n.marca = '"+marca+"'");
+        }
+    }
+    
+    public void modificarPrecioProducto(int id, String precio) {
+        try (Session session = driver.session()) {
+            session.run("match (n:Producto) where n.id = '"+id+"' set n.precio = '"+precio+"'");
+        }
+    }
+    
+    //MÉTODOS DE VERIFICACIÓN
     public int verificarRelacionNodoCliente(int id) {
         try (Session session = driver.session()) {
             //org.neo4j.driver.Record valor = null;
@@ -81,6 +108,26 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         return 1;
     }
     
+    public int verificarRelacionNodoProducto(int id) {
+        try (Session session = driver.session()) {
+            //org.neo4j.driver.Record valor = null;
+            int contador = 0;
+            Result result = session.run("match (c:Producto {id:'"+id+"'})-->(n) return n;");
+            while (result.hasNext())
+            {
+                org.neo4j.driver.Record record = result.next();
+                //System.out.println(record.get("id").asString());
+                contador += 1;
+                //cantFinal = (Integer.parseInt(cant));
+            }
+            if(contador != 0){
+             return 0;
+            }
+        }
+        return 1;
+    }
+    
+    //ELIMINAR RELACIONES O NODOS
     public void eliminarRelacionNodoClienteConCompras(int id, int num) {
         try (Session session = driver.session()) {
             if(num == 0){
@@ -93,6 +140,26 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         System.out.println("Nodo eliminado");
     }
     
+    public void eliminarRelacionNodoProductoConMarcaYCompra(int id) {
+        try (Session session = driver.session()) {
+            session.run("match (c:Producto {id: '"+id+"'})-[r:producido_por]-(co:Marca) delete r");
+            session.run("match (c:Producto {id: '"+id+"'})-[r:incluye_un]-(co:Compra) delete r");
+            session.close();
+        }
+        System.out.println("Relaciones eliminada");
+    }
+    
+    public void eliminarNodoProducto(int id) {
+        try (Session session = driver.session()) {
+           session.run("match (n:Producto) where n.id = '"+id+"' delete n");
+            
+        }
+        System.out.println("Nodo eliminado");
+    }
+    
+    
+    
+    //
     public int obtenerCantidadDeClientes() {
         try (Session session = driver.session()) {
             org.neo4j.driver.Record cantClientes = null;
