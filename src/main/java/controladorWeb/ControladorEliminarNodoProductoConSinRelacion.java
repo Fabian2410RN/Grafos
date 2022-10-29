@@ -36,11 +36,7 @@ public class ControladorEliminarNodoProductoConSinRelacion extends HttpServlet {
         //int obtenerValorDeVerdad;
         
         ConexionBaseDeDatosNeo4j eliminarNodoYRelacion = new ConexionBaseDeDatosNeo4j();
-        //obtenerValorDeVerdad = eliminarNodoYRelacion.verificarRelacionNodoProducto(idEntero);
-       
         eliminarNodoYRelacion.eliminarRelacionNodoProductoConMarcaYCompra(idEntero);
-           
-        
         eliminarNodoYRelacion.eliminarNodoProducto(idEntero);
 
         response.setContentType("text/html;charset=UTF-8");

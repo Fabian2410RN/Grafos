@@ -34,10 +34,9 @@ public class ControladorEliminarNodoClienteConSinRelacion extends HttpServlet {
         System.out.println("Estoy entrando el el doPost");
         String id = request.getParameter("id");
         int idEntero = (Integer.parseInt(id));
-        int obtenerValorDeVerdad;
+        
         ConexionBaseDeDatosNeo4j eliminarNodo = new ConexionBaseDeDatosNeo4j();
-        obtenerValorDeVerdad = eliminarNodo.verificarRelacionNodoCliente(idEntero);
-        eliminarNodo.eliminarRelacionNodoClienteConCompras(idEntero, obtenerValorDeVerdad);
+        eliminarNodo.eliminarRelacionNodoClienteConCompras(idEntero);
         
         response.setContentType("text/html;charset=UTF-8");
         

@@ -128,14 +128,13 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
     }
     
     //ELIMINAR RELACIONES O NODOS
-    public void eliminarRelacionNodoClienteConCompras(int id, int num) {
+    public void eliminarRelacionNodoClienteConCompras(int id) {
         try (Session session = driver.session()) {
-            if(num == 0){
-                session.run("match (c:Cliente {id: '"+id+"'})-[r:realiza_una]-(co:Compra) delete r");
-            }
-            else{
-                session.run("match (n:Cliente) where n.id = '"+id+"' delete n");
-            }
+            
+            session.run("match (n:Cliente {id: '"+id+"'})-[r:realiza_una]-(co:Compra) delete r");
+            
+            session.run("match (n:Cliente) where n.id = '"+id+"' delete n");
+            
         }
         System.out.println("Nodo eliminado");
     }
