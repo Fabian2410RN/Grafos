@@ -19,24 +19,32 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CControladorCargaCSVs", urlPatterns = {"/vistaWeb/CargarCSVs"})
 public class CControladorCargaCSVs extends HttpServlet {
-    
+    private int cantidadDeIntentos;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Entrando Do get");
-        try (ConexionBaseDeDatosNeo4j greeter = new ConexionBaseDeDatosNeo4j()) {
-            greeter.cargarCSVs();
-            greeter.close();
-        }
         
+        cantidadDeIntentos++;
+        
+            if(cantidadDeIntentos == 1){
+                ConexionBaseDeDatosNeo4j greeter = new ConexionBaseDeDatosNeo4j();
+                greeter.cargarCSVs();
+                greeter.close();
+
+            }else{
+                System.out.println("Nada que hacer");
+            }
+        response.setContentType("text/html;charset=UTF-8");
         request.getRequestDispatcher("CargarCSVs.jsp").forward(request, response);
     }
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("Entrando Do post");
+        request.getRequestDispatcher("CargarCSVs.jsp").forward(request, response);
         
-       
-        }   
-
+    }
+    
 }

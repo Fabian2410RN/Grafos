@@ -31,13 +31,14 @@ public class ControladorEliminarNodoClienteConSinRelacion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        System.out.println("Estoy entrando el el doPost");
         String id = request.getParameter("id");
-        int idN = (Integer.parseInt(id));
-        
+        int idEntero = (Integer.parseInt(id));
+        int obtenerValorDeVerdad;
         ConexionBaseDeDatosNeo4j eliminarNodo = new ConexionBaseDeDatosNeo4j();
-        eliminarNodo.verificarRelacionNodoCliente(idN);
-        //eliminarNodo.eliminarNodoClienteSinRelacion(idN);
+        obtenerValorDeVerdad = eliminarNodo.verificarRelacionNodoCliente(idEntero);
+        eliminarNodo.eliminarRelacionNodoClienteConCompras(idEntero, obtenerValorDeVerdad);
+        
         response.setContentType("text/html;charset=UTF-8");
         
         request.getRequestDispatcher("EliminarNodoClienteConSinRelacion.jsp").forward(request, response);

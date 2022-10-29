@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,6 +17,7 @@
     <div class="row">
         <div class="col-md-8 mx-auto">
             <div class="card mt-8 text-center">
+                <form method="get" action="<c:url value="/vistaWeb/CargarCSVs"/>" >
                 <div class="card-header">
                     <h1>Carga exitosa</h1>
                     <div>

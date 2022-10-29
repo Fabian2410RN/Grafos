@@ -61,21 +61,7 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             session.run("match (n:Cliente) where n.id = '"+id+"' set n.last_name = '"+apellidos+"'");
         }
     }
-    
-    public void eliminarNodoClienteSinRelacion(int id) {
-        //id = (Integer.parseInt(id));
-        try (Session session = driver.session()) {
-            session.run("match (n:Cliente) where n.id = '"+id+"' delete n");
-        }
-    }
-    
-    public void eliminarNodoClienteConRelacion(int id) {
-        //id = (Integer.parseInt(id));
-        try (Session session = driver.session()) {
-            //session.run("match (n:Cliente) where n.id = '"+id+"' set n.last_name = '"+apellidos+"'");
-        }
-    }
-    
+        
     public int verificarRelacionNodoCliente(int id) {
         try (Session session = driver.session()) {
             //org.neo4j.driver.Record valor = null;
@@ -93,6 +79,18 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             }
         }
         return 1;
+    }
+    
+    public void eliminarRelacionNodoClienteConCompras(int id, int num) {
+        try (Session session = driver.session()) {
+            if(num == 0){
+                session.run("match (c:Cliente {id: '"+id+"'})-[r:realiza_una]-(co:Compra) delete r");
+            }
+            else{
+                session.run("match (n:Cliente) where n.id = '"+id+"' delete n");
+            }
+        }
+        System.out.println("Nodo eliminado");
     }
     
     public int obtenerCantidadDeClientes() {
