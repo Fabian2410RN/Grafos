@@ -17,29 +17,30 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Estadm
  */
-@WebServlet(name = "ControladorEliminarNodoClienteConSinRelacion", urlPatterns = {"/vistaWeb/EliminarNodoClienteConSinRelacion"})
-public class ControladorEliminarNodoClienteConSinRelacion extends HttpServlet {
+@WebServlet(name = "ControladorEliminarNodoProductoConSinRelacion", urlPatterns = {"/vistaWeb/EliminarNodoProductoConSinRelacion"})
+public class ControladorEliminarNodoProductoConSinRelacion extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        request.getRequestDispatcher("EliminarNodoClienteConSinRelacion.jsp").forward(request, response);
-        
+        request.getRequestDispatcher("EliminarNodoProductoConSinRelacion.jsp").forward(request, response);
+       
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Estoy entrando el el doPost");
+        
         String id = request.getParameter("id");
         int idEntero = (Integer.parseInt(id));
+        //int obtenerValorDeVerdad;
         
-        ConexionBaseDeDatosNeo4j eliminarNodo = new ConexionBaseDeDatosNeo4j();
-        eliminarNodo.eliminarRelacionNodoClienteConCompras(idEntero);
-        
+        ConexionBaseDeDatosNeo4j eliminarNodoYRelacion = new ConexionBaseDeDatosNeo4j();
+        eliminarNodoYRelacion.eliminarRelacionNodoProductoConMarcaYCompra(idEntero);
+        eliminarNodoYRelacion.eliminarNodoProducto(idEntero);
+
         response.setContentType("text/html;charset=UTF-8");
-        
-        request.getRequestDispatcher("EliminarNodoClienteConSinRelacion.jsp").forward(request, response);
+        request.getRequestDispatcher("EliminarNodoProductoConSinRelacion.jsp").forward(request, response);
+       
     }
 }

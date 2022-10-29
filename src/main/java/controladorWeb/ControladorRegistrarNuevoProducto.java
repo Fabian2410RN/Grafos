@@ -17,29 +17,30 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Estadm
  */
-@WebServlet(name = "ControladorEliminarNodoClienteConSinRelacion", urlPatterns = {"/vistaWeb/EliminarNodoClienteConSinRelacion"})
-public class ControladorEliminarNodoClienteConSinRelacion extends HttpServlet {
+@WebServlet(name = "ControladorRegistrarNuevoProducto", urlPatterns = {"/vistaWeb/RegistrarNuevoProducto"})
+public class ControladorRegistrarNuevoProducto extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        request.getRequestDispatcher("EliminarNodoClienteConSinRelacion.jsp").forward(request, response);
-        
+        request.getRequestDispatcher("RegistrarNuevoProducto.jsp").forward(request, response);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Estoy entrando el el doPost");
-        String id = request.getParameter("id");
-        int idEntero = (Integer.parseInt(id));
+        int id = 61;
+        String nombre = request.getParameter("nombre");
+        String marca = request.getParameter("marca");
+        String precio = request.getParameter("precio");
         
-        ConexionBaseDeDatosNeo4j eliminarNodo = new ConexionBaseDeDatosNeo4j();
-        eliminarNodo.eliminarRelacionNodoClienteConCompras(idEntero);
+        ConexionBaseDeDatosNeo4j nuevoNodo = new ConexionBaseDeDatosNeo4j();
+        nuevoNodo.crearNuevoNodoProducto(id, nombre, marca, precio);
+               
+        response.setContentType("text/html;charset=UTF-8");
+        request.getRequestDispatcher("RegistrarNuevoProducto.jsp").forward(request, response);
         
         response.setContentType("text/html;charset=UTF-8");
-        
-        request.getRequestDispatcher("EliminarNodoClienteConSinRelacion.jsp").forward(request, response);
     }
+
 }

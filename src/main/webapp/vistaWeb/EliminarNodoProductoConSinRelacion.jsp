@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ModificarDatosCliente
-    Created on : 28 oct. 2022, 16:31:37
+    Document   : EliminarNodoConSinRelacion
+    Created on : 28 oct. 2022, 17:16:15
     Author     : Estadm
 --%>
 
@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Modificar datos cliente</title>
+        <title>Eliminar producto</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     </head>
     
@@ -19,28 +19,20 @@
         <div class="col-md-8 mx-auto">
             <div class="card mt-8 text-center">
                 <div class="card-header">
-                    <h1>Ingrese el dato o datos a modificar</h1>
+                    <h1>Ingrese el id del producto a eliminar</h1>
                     <div>
                         <img src="../imagenesVista/Imagen5.png"/>
                     </div>
                 </div>
                 <br>
-                <form method="post" action="<c:url value="/vistaWeb/ModificarDatosCliente"/>" >
+                <form method="post" action="<c:url value="/vistaWeb/EliminarNodoProductoConSinRelacion"/>" >
                     <div class="form-group">
                         <label>ID</label>
-                        <input type="text" class "form-control" name = "id" placeholder="ID" required="Debe ingresar el ID">
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" class "form-control" name = "nombre" placeholder="Nombre">
-                    </div>
-                    <div class="form-group">
-                        <label>Apellidos</label>
-                        <input type="text" class "form-control" name = "apellidos" placeholder="Primer apellido">
+                        <input type="text" class "form-control" name = "id" placeholder="ID">
                     </div>
                     <div class="form-group">
                         <button type="submit" class= "btn btn-primary">
-                            Modificar
+                            Eliminar
                         </button>
                         <a href="../index.html">Cancelar</a>
                         
@@ -51,3 +43,4 @@
     </div>
     </body>
 </html>
+
