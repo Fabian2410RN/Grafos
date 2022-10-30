@@ -18,7 +18,7 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
     public ConexionBaseDeDatosNeo4j() {
         String uri = "bolt://localhost:7687";
         String user = "neo4j";
-        String password = "1234";
+        String password = "12345";
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
     }
 
@@ -190,6 +190,25 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             greeter.printGreeting("hello, world");
         }
     }*/
+    
+    public List<String> getProductosMasVendidos() {
+    try (Session session = driver.session()) {
+        return session.readTransaction(tx -> {
+            List<String> productos = new ArrayList<>();
+            Result result = tx.run("MATCH (a:Compra)-[r1:incluye_un]->(b:producto)RETURN b.nombre,sum(toInteger(a.cantidad)) as  cantidadVendida ORDER BY cantidadVendida  DESC limit 5");
+            while (result.hasNext()) {
+                productos.add(result.next().get(0).asString());
+            }
+            return productos;
+        });
+    }
+    
+    
+    
+}
+    
+    
+   
 }
 
 
