@@ -30,14 +30,7 @@
                 </div>
                 <br>
                 <form method="post" action="<c:url value="/vistaWeb/RegistroCompras"/>" >
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" class "form-control" name = "nombre" placeholder="Nombre">
-                    </div>
-                    <div class="form-group">
-                        <label>Apellidos</label>
-                        <input type="text" class "form-control" name = "apellidos" placeholder="Primer apellido">
-                    </div>
+                    
                     
                     <div class="form-group">
                         <label>Cantidad productos</label>
@@ -55,10 +48,21 @@
                                 int cantProductosInt = Integer.parseInt(cant);
                                 for(int j = 0; j < cantProductosInt; j++){
                                     int valor = j+1;
-                                    out.println("<div class=form-group> <label>Producto"+valor+"</label> <input type=text class form-control name = producto"+j+" placeholder=Producto"+valor+"> </div>");
+                                    out.println("<div class=row center-text> <div class=col><label>Producto"+valor+"</label> <input type=text class form-control name = producto"+j+" placeholder=Producto"+valor+" ></div> <div class=col><label>Cantidad </label> <input type=text class form-control name = unidad"+j+" placeholder=Cantidad ></div></div>");
+                                    //out.println("<div class=row right-text> <div class=col><label>Cantidad </label> <input type=text class form-control name = cantidad"+j+" placeholder=Cantidad required = Este campo esta sin rellenar></div></div>");
                                 }
                             }
                         %>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" class "form-control" name = "nombre" placeholder="Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos</label>
+                        <input type="text" class "form-control" name = "apellidos" placeholder="Primer apellido">
                     </div>
                     <div class="form-group">
                         <button type="submit" class= "btn btn-primary">

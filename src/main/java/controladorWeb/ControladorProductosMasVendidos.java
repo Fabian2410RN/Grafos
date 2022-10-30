@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Agustin Arias
  */
+        /*
 @WebServlet(name = "ControladorProductosMasVendidos", urlPatterns = {"/vistaWeb/ProductosMasVendidos"})
 public class ControladorProductosMasVendidos extends HttpServlet {
 private int cantidadDeIntentos;
@@ -39,4 +40,4 @@ private int cantidadDeIntentos;
     }
     }
 
-}
+}*/

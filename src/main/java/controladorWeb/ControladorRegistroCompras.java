@@ -4,8 +4,13 @@
  */
 package controladorWeb;
 
+import accesoABaseDeDatos.ConexionBaseDeDatosNeo4j;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,19 +39,36 @@ public class ControladorRegistroCompras extends HttpServlet {
         String apellidos = request.getParameter("apellidos");
         String cantProductos = request.getParameter("cantProductos");
         int cantPro = Integer.parseInt(cantProductos);
-        
-        
-        System.out.println("Cantidad de entradas "+cantidadDeIntentos);
+        ConexionBaseDeDatosNeo4j verificarExisteNodo = new ConexionBaseDeDatosNeo4j();
         
         if (cantidadDeIntentos != 0){
-            String [] arregloProductos = new String[cantPro];
-            for(int i = 0; i < cantPro; i++){
-                String quitarNull = palabraEliminar(request.getParameter("producto"+i), "null");
+            if(verificarExisteNodo.verificarSiExisteNodoCliente(nombre, apellidos)){
                 
-                arregloProductos[i] += quitarNull;
-                System.out.println(arregloProductos[i]);
+                //
+                String [] arregloProductos = new String[cantPro];
+                String [] arregloCantUnidades = new String[cantPro];
+                for(int i = 0; i < cantPro; i++){
+                    arregloProductos[i] = request.getParameter("producto"+i);
+                    arregloCantUnidades[i] = request.getParameter("unidad"+i);
+                    if(verificarExisteNodo.verificarSiExisteNodoProducto(arregloProductos[i])){
+                        System.out.println("Funciona");
+                    } else{
+                        request.getRequestDispatcher("RegistroCompras.jsp").forward(request, response);
+                    }
+                    //String quitarNull = palabraEliminar(arregloProductos[i], "null");
+                    //arregloProductosN[i] += 
+                    System.out.println(arregloProductos[i]);
+                    System.out.println(arregloCantUnidades[i]);
+                }
+                
+            }else{
+                //response.sendRedirect("MensajeFalloClienteNoExiste.jsp");
+                System.out.println("El cliente no existe");
+                request.getRequestDispatcher("RegistroCompras.jsp").forward(request, response);
             }
+            
         }
+        
         cantidadDeIntentos++;
         
         response.setContentType("text/html;charset=UTF-8");
@@ -61,4 +83,10 @@ public class ControladorRegistroCompras extends HttpServlet {
         }
     return oracion;
 }
+    public static void fff(){
+        String mensajeRegistro = "<script text/javascript>alert('El cliente no existe');</script>"; 
+          out.println(mensajeRegistro);
+    }
+            
+    
 }

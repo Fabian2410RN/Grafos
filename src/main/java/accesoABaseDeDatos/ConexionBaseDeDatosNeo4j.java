@@ -3,6 +3,12 @@
 package accesoABaseDeDatos;
 
 
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
@@ -10,10 +16,12 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 
 import static org.neo4j.driver.Values.parameters;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import static scala.concurrent.Await.result;
 
 public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
-    private final Driver driver;
+    final private Driver driver;
     
     public ConexionBaseDeDatosNeo4j() {
         String uri = "bolt://localhost:7687";
@@ -127,6 +135,34 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         return 1;
     }
     
+    public Boolean verificarSiExisteNodoCliente(String nombre, String apellido) {
+        int contador = 0;
+        
+        try (Session session = driver.session()){
+            Result rs = session.run("match (c:Cliente {first_name: '"+nombre+"', last_name:'"+apellido+"'}) return c");
+            while(rs.hasNext()){
+                org.neo4j.driver.Record record = rs.next();
+                //System.out.println(rs.("c.first_name"));
+                contador ++;
+            }    
+            return contador != 0;
+        }
+        
+    }
+    
+    public Boolean verificarSiExisteNodoProducto(String nombre) {
+        int contador = 0;
+        try (Session session = driver.session()){
+            Result rs = session.run("match (c:Producto {nombre: '"+nombre+"'}) return c");
+            while(rs.hasNext()){
+                org.neo4j.driver.Record record = rs.next();
+                //System.out.println(rs.("c.first_name"));
+                contador ++;
+            }    
+            return contador != 0;
+        }
+    }
+    
     //ELIMINAR RELACIONES O NODOS
     public void eliminarRelacionNodoClienteConCompras(int id) {
         try (Session session = driver.session()) {
@@ -190,7 +226,7 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             greeter.printGreeting("hello, world");
         }
     }*/
-    
+    /*
     public List<String> getProductosMasVendidos() {
     try (Session session = driver.session()) {
         return session.readTransaction(tx -> {
@@ -201,14 +237,17 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             }
             return productos;
         });
+    }*/
+    
+    public static void main(String[] args) throws Exception {
+       ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
+       String nombre = "Crush";
+       String apellido = "gdgd";
+       boolean trueFalse = csv.verificarSiExisteNodoProducto(nombre);
+       System.out.println(trueFalse);
     }
     
-    
-    
 }
-    
-    
-   
-}
+
 
 
