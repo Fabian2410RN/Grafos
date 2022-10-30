@@ -64,6 +64,14 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         }
     }
     
+    public void crearRelacionNodoClienteCompra(String nombreCliente, String nombreProducto) {
+        try (Session session = driver.session()) {
+            session.run("LOAD CSV WITH HEADERS FROM 'file:///C:/CSV/Clientes.csv' AS row MATCH (a:Cliente {id: row.id}) MATCH (b:Compra {idCliente: row.id}) MERGE (a)-[:realiza_una]->(b) RETURN *;");
+        }
+    }
+    
+    
+    
     //MODIFICAR CLIENTES Y PRODUCTOS
     public void modificarNombreCliente(int id, String nombre) {
         try (Session session = driver.session()) {
