@@ -3,25 +3,15 @@
 package accesoABaseDeDatos;
 
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 
-import static org.neo4j.driver.Values.parameters;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import static scala.concurrent.Await.result;
 
 public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
-    final private Driver driver;
+    Driver driver;
     
     public ConexionBaseDeDatosNeo4j() {
         String uri = "bolt://localhost:7687";
