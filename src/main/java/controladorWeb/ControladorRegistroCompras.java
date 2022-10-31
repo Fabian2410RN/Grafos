@@ -57,7 +57,7 @@ public class ControladorRegistroCompras extends HttpServlet {
                         verificarExisteNodo.crearNodoCompra(ultimaCompra,idCliente, idProducto, cantProducto);
                         verificarExisteNodo.crearRelacionClienteCompra(idCliente, ultimaCompra);
                         verificarExisteNodo.crearRelacionCompraProducto(ultimaCompra, idProducto);
-                        System.out.println("Ultima compra: "+ ultimaCompra +" Id cliente: "+ idCliente +" Id producto: "+ idProducto +" Cantidad: "+ cantProducto);
+                        //System.out.println("Ultima compra: "+ ultimaCompra +" Id cliente: "+ idCliente +" Id producto: "+ idProducto +" Cantidad: "+ cantProducto);
                     } else{
                         request.getRequestDispatcher("RegistroCompras.jsp").forward(request, response);
                     }
