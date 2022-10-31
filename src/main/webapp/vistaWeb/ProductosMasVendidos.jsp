@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="accesoABaseDeDatos.*" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <html>
@@ -22,18 +24,20 @@
                     <h1>Top 5 productos más vendidos</h1>
                 </div>
                 <br>
-                <table>
-                    <thead>
-                        <tr>
-                  
-                    <th>Producto<th>
-                    <th>Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       
-                    </tbody>
-                </table>
+                    <%
+                           String msg = "";
+                           ConexionBaseDeDatosNeo4j db = new ConexionBaseDeDatosNeo4j();
+                           int cant = db.cantidadConsultaProductosMasVendidos();
+                           String [] arreglo = new String[cant];
+                           int [] arregloD = new int[cant];
+                           arreglo = db.getNombresProductosMasVendidos();
+                           arregloD = db.getCantidadProductosMasVendidos();
+                           for(int i=0; i< cant; i++){
+                                out.println("<br><tbody>" + arreglo[i] + "<p>" + "Cantidad: " + arregloD[i] + "</p>" + "</tbody><br>");
+                            }
+                           
+                    %>
+                    
             </div>
         </div>
     </div>

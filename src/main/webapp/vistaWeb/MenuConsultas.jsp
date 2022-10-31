@@ -59,7 +59,7 @@
                     </div>
                     <br>
                     <br>
-                    <a class="btn btn-secondary" href="ComprasDeUnCliente.jsp">Consultar compras de un cliente</a>
+                    <a class="btn btn-secondary" href="buscarCliente.jsp">Consultar compras de un cliente</a>
                 </div>
             </div>
             <br>
