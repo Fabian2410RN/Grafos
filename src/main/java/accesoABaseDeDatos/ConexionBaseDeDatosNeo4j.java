@@ -60,6 +60,13 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         }
     }
     
+    public void crearNodoCompra(int idCliente, int idProducto, int cantidad) {
+        
+        try (Session session = driver.session()) {
+            session.run("Create (p:Compra {idCliente:'"+idCliente+"',idProducto:'"+idProducto+"',cantidad: '"+cantidad+"'})");
+        }
+    }
+    
     
     
     //MODIFICAR CLIENTES Y PRODUCTOS
@@ -218,6 +225,49 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             //return cantFinal+1;
         }
     }
+    
+    public  int obtenerIDCliente(String nombre, String apellido) {
+        //ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
+        
+        //int contador = 0;
+        //String [] arreglo = new String[1];
+        try (Session session = driver.session()) {
+            Result result = session.run("Match (c: Cliente {first_name: '"+nombre+"', last_name: '"+apellido+"'}) return c.id as id");
+            org.neo4j.driver.Record record = result.next();
+            String id = record.get("id").asString();
+            int idConvertido = Integer.parseInt(id);
+            System.out.println(id);
+             /*
+            while (result.hasNext()) {
+                org.neo4j.driver.Record record = result.next();
+                String nombreB = record.get("first_name").asString();
+                //int cant = record.get("cantidadVendida").asInt();
+                for(int i=0; i < 1 ; i++){
+                    arreglo[contador] = nombreB;
+                    System.out.println("Entrado al for");
+                    System.out.println(arreglo[0]);
+                    //contador++;
+                }
+                */
+                //System.out.println(arreglo);
+                //System.out.println(cant);
+                //p.add(result.next().get(0).asString());
+                return idConvertido;
+            }
+        
+    }
+    
+    public  int obtenerIDProducto(String nombre) {
+        try (Session session = driver.session()) {
+            Result result = session.run("Match (c: Producto {nombre: '"+nombre+"'}) return c.id as id");
+            org.neo4j.driver.Record record = result.next();
+            String id = record.get("id").asString();
+            int idConvertido = Integer.parseInt(id);
+            System.out.println(id);
+            return idConvertido;
+            }
+        
+    }
     /*
     public static void main(String... args) throws Exception {
         try (HelloWorldExample greeter = new HelloWorldExample("bolt://localhost:7687", "neo4j", "1234")) {
@@ -239,10 +289,9 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
     
     public static void main(String[] args) throws Exception {
        ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
-       String nombre = "Crush";
-       String apellido = "gdgd";
-       boolean trueFalse = csv.verificarSiExisteNodoProducto(nombre);
-       System.out.println(trueFalse);
+       String nombre = "Yoghurt Tubes";
+       csv.obtenerIDProducto(nombre);
+       //System.out.println(trueFalse);
     }
     
 }

@@ -43,7 +43,6 @@ public class ControladorRegistroCompras extends HttpServlet {
         
         if (cantidadDeIntentos != 0){
             if(verificarExisteNodo.verificarSiExisteNodoCliente(nombre, apellidos)){
-                
                 //
                 String [] arregloProductos = new String[cantPro];
                 String [] arregloCantUnidades = new String[cantPro];
@@ -51,14 +50,18 @@ public class ControladorRegistroCompras extends HttpServlet {
                     arregloProductos[i] = request.getParameter("producto"+i);
                     arregloCantUnidades[i] = request.getParameter("unidad"+i);
                     if(verificarExisteNodo.verificarSiExisteNodoProducto(arregloProductos[i])){
-                        System.out.println("Funciona");
+                        int idCliente = verificarExisteNodo.obtenerIDCliente(nombre, apellidos);
+                        int idProducto = verificarExisteNodo.obtenerIDProducto(arregloProductos[i]);
+                        int cantProducto = Integer.parseInt(arregloCantUnidades[i]);
+                        verificarExisteNodo.crearNodoCompra(idCliente, idProducto, cantProducto);
+                        System.out.println("Id cliente: "+ idCliente +" Id producto: "+ idProducto +" Cantidad: "+ cantProducto);
                     } else{
                         request.getRequestDispatcher("RegistroCompras.jsp").forward(request, response);
                     }
                     //String quitarNull = palabraEliminar(arregloProductos[i], "null");
                     //arregloProductosN[i] += 
-                    System.out.println(arregloProductos[i]);
-                    System.out.println(arregloCantUnidades[i]);
+                    //System.out.println(arregloProductos[i]);
+                    //System.out.println(arregloCantUnidades[i]);
                 }
                 
             }else{

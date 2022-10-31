@@ -26,12 +26,12 @@ public class CControladorCargaCSVs extends HttpServlet {
         System.out.println("Entrando Do get");
         
         cantidadDeIntentos++;
+        System.out.println(cantidadDeIntentos);
         
             if(cantidadDeIntentos == 1){
-                ConexionBaseDeDatosNeo4j greeter = new ConexionBaseDeDatosNeo4j();
-                greeter.cargarCSVs();
-                greeter.close();
-
+                ConexionBaseDeDatosNeo4j cargaCSV = new ConexionBaseDeDatosNeo4j();
+                cargaCSV.cargarCSVs();
+                cargaCSV.close();
             }else{
                 System.out.println("Nada que hacer");
             }
