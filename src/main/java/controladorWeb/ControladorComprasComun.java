@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Agustin Arias
  */
-@WebServlet(name = "ControladorBuscarClientes", urlPatterns = {"/vistaWeb/buscarCliente"})
-public class ControladorBuscarClientes extends HttpServlet {
+@WebServlet(name = "ControladorComprasComun", urlPatterns = {"/vistaWeb/clientesComun"})
+public class ControladorComprasComun extends HttpServlet {
     private int cantidadDeIntentos = 0;
      @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("buscarCliente.jsp").forward(request, response);
+        request.getRequestDispatcher("clientesComun.jsp").forward(request, response);
     }
     
      @Override
@@ -32,7 +32,7 @@ public class ControladorBuscarClientes extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String apellidos = request.getParameter("apellidos");
         ConexionBaseDeDatosNeo4j verificarExisteNodo = new ConexionBaseDeDatosNeo4j();
-        int cantPro = verificarExisteNodo.cantidadComprasDeCliente(nombre,apellidos);
+        int cantPro = verificarExisteNodo.cantidadComprasEnComun(nombre,apellidos);
         
         if (cantidadDeIntentos != 0){
             if(verificarExisteNodo.verificarSiExisteNodoCliente(nombre, apellidos)){
@@ -46,7 +46,7 @@ public class ControladorBuscarClientes extends HttpServlet {
                     if(verificarExisteNodo.verificarSiExisteNodoProducto(arregloProductos[i])){
                         System.out.println("Funciona");
                     } else{
-                        request.getRequestDispatcher("buscarCliente.jsp").forward(request, response);
+                        request.getRequestDispatcher("clientesComun.jsp").forward(request, response);
                     }
                     //String quitarNull = palabraEliminar(arregloProductos[i], "null");
                     //arregloProductosN[i] += 
@@ -57,7 +57,7 @@ public class ControladorBuscarClientes extends HttpServlet {
             }else{
                 //response.sendRedirect("MensajeFalloClienteNoExiste.jsp");
                 System.out.println("El cliente no existe");
-                request.getRequestDispatcher("buscarCliente.jsp").forward(request, response);
+                request.getRequestDispatcher("clientesComun.jsp").forward(request, response);
             }
             
         }
@@ -65,7 +65,7 @@ public class ControladorBuscarClientes extends HttpServlet {
         cantidadDeIntentos++;
         
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("buscarCliente.jsp").forward(request, response);
+        request.getRequestDispatcher("clientesComun.jsp").forward(request, response);
        
     }
 

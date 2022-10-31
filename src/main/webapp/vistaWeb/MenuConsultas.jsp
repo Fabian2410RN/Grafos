@@ -52,6 +52,7 @@
                     <br>
                     <a class="btn btn-secondary" href="ClientesConMasCompras.jsp">Top 5 clientes con mas compras</a>
                 </div>
+                
                 <div class="col">
                     <br>
                     <br>
@@ -60,6 +61,16 @@
                     <br>
                     <br>
                     <a class="btn btn-secondary" href="buscarCliente.jsp">Consultar compras de un cliente</a>
+                </div>
+                <br>
+                <div class="col">
+                    <br>
+                    <br>
+                    <div>
+                    </div>
+                    <br>
+                    <br>
+                    <a class="btn btn-secondary" href="clientesComun.jsp">Compras en común</a>
                 </div>
             </div>
             <br>

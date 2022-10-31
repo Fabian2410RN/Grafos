@@ -402,9 +402,9 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             Result result = session.run("MATCH (a:Compra)-[r1:incluye_un]->(b:Producto)-[r2:producido_por]->(d:Marca) RETURN b.marca as Marca,d.pais as Pais,sum(toInteger(a.cantidad)) as  cantidadVendida ORDER BY cantidadVendida  DESC limit 5");
             while (result.hasNext()) {
                 org.neo4j.driver.Record record = result.next();
-                String marca = record.get("Pais").asString();
+                String pais = record.get("Pais").asString();
                 for(int i=0; i < 1 ; i++){
-                    arreglo[contador] = marca;
+                    arreglo[contador] = pais;
                     System.out.println(arreglo[i]);
                     contador++;
                 }
@@ -479,9 +479,9 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             Result result = session.run("MATCH (a:Cliente)-[r1:realiza_una]->(b:Compra) RETURN a.first_name +\" \" + a.last_name as nombreCompleto,sum(toInteger(b.cantidad)) as cantidadComprada ORDER BY cantidadComprada  DESC limit 5");
             while (result.hasNext()) {
                 org.neo4j.driver.Record record = result.next();
-                String marca = record.get("nombreCompleto").asString();
+                String nombre = record.get("nombreCompleto").asString();
                 for(int i=0; i < 1 ; i++){
-                    arreglo[contador] = marca;
+                    arreglo[contador] = nombre;
                     System.out.println(arreglo[i]);
                     contador++;
                 }
@@ -543,9 +543,9 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             Result result = session.run("MATCH (a:Cliente)-[r1:realiza_una]->(b:Compra)-[r2:incluye_un]->(d:Producto) where a.first_name= '"+pNombre+"' and a.last_name= '"+pApellido+"' RETURN d.nombre as Nombre, b.cantidad as Cantidad");
             while (result.hasNext()) {
                 org.neo4j.driver.Record record = result.next();
-                String marca = record.get("Nombre").asString();
+                String nombre = record.get("Nombre").asString();
                 for(int i=0; i < 1 ; i++){
-                    arreglo[contador] = marca;
+                    arreglo[contador] = nombre;
                     System.out.println(arreglo[i]);
                     contador++;
                 }
@@ -566,9 +566,9 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             Result result = session.run("MATCH (a:Cliente)-[r1:realiza_una]->(b:Compra)-[r2:incluye_un]->(d:Producto) where a.first_name= '"+pNombre+"' and a.last_name= '"+pApellido+"' RETURN d.nombre as Nombre, b.cantidad as Cantidad");
             while (result.hasNext()) {
                 org.neo4j.driver.Record record = result.next();
-                String marca = record.get("Cantidad").asString();
+                String cantidad = record.get("Cantidad").asString();
                 for(int i=0; i < 1 ; i++){
-                    arreglo[contador] = marca;
+                    arreglo[contador] = cantidad;
                     System.out.println(arreglo[i]);
                     contador++;
                 }
@@ -578,19 +578,141 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         }
         return arreglo;
     }
+    public  String[] getNombreProductosComun(String pNombre, String pApellido) {
+        ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
+        
+        int cantPro=csv. cantidadComprasDeCliente(pNombre, pApellido);
+        int contador = 0;
+        String [] arreglo = new String[cantPro];
+        try (Session session = driver.session()) {
+        
+            Result result = session.run("MATCH (a:Cliente)-[r1:realiza_una]->(b:Compra)-[r2:incluye_un]->(d:Producto) where a.first_name= '"+pNombre+"' and a.last_name= '"+pApellido+"' RETURN d.nombre as Nombre, b.cantidad as Cantidad");
+            while (result.hasNext()) {
+                org.neo4j.driver.Record record = result.next();
+                String nombre = record.get("NombreCompleto").asString();
+                for(int i=0; i < 1 ; i++){
+                    arreglo[contador] = nombre;
+                    System.out.println(arreglo[i]);
+                    contador++;
+                }
+            }
+            
+        }
+        return arreglo;
+    }
     
     
+    /*
+    Métodos de la consulta 5
+    */
+    
+    public  int cantidadProductoComun(String pProducto) {
+        int contador =0;
+        try (Session session = driver.session()) {
+        
+            Result result = session.run("MATCH (a:Cliente)-[r1:realiza_una]->(b:Compra)-[r2:incluye_un]->(d:Producto)where d.nombre ='"+pProducto+"' RETURN a.first_name +  \" \"+ a.last_name as nombreCompleto");
+            while (result.hasNext()) {
+                org.neo4j.driver.Record record = result.next();
+                contador++;
+            }
+        }
+        return contador;
+    }
+    
+    public  String[] getNombreClientesComun(String pProducto) {
+        ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
+        
+        int cantPro=csv.cantidadProductoComun(pProducto);
+        int contador = 0;
+        String [] arreglo = new String[cantPro];
+        try (Session session = driver.session()) {
+        
+            Result result = session.run("MATCH (a:Cliente)-[r1:realiza_una]->(b:Compra)-[r2:incluye_un]->(d:Producto)where d.nombre ='"+pProducto+"' RETURN a.first_name +  \" \"+ a.last_name as nombreCompleto");
+            while (result.hasNext()) {
+                org.neo4j.driver.Record record = result.next();
+                String nombre = record.get("nombreCompleto").asString();
+                for(int i=0; i < 1 ; i++){
+                    arreglo[contador] = nombre;
+                    System.out.println(arreglo[i]);
+                    contador++;
+                }
+            }
+            
+        }
+        return arreglo;
+    }
+    
+    
+    /*
+    Métodos de la consulta 6
+    */
+    public  int cantidadComprasEnComun(String pNombre, String pApellido) {
+        int contador =0;
+        try (Session session = driver.session()) {
+        
+            Result result = session.run("CALL {Match(c:Cliente{first_name:'"+pNombre+"', last_name:'"+pApellido+"'}) Match (c)-[r1:realiza_una]->(:Compra)-[incluye_un]->(p:Producto) Match(p:Producto)<-[:incluye_un]-(:Compra)<-[r2:realiza_una]-(u:Cliente) where u.first_name <> '"+pNombre+"' and u.last_name <> '"+pNombre+"' RETURN u.first_name + \" \" + u.last_name AS Nombre, COLLECT(p.nombre) AS Productos ORDER BY(Nombre)} WITH Nombre, Productos WHERE SIZE(Productos) >=2 RETURN Nombre, Productos");
+            while (result.hasNext()) {
+                org.neo4j.driver.Record record = result.next();
+                contador++;
+            }
+        }
+        return contador;
+    }
+    public  String[] getNombreClientesComun(String pNombre, String pApellido) {
+        ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
+        
+        int cantPro=csv. cantidadComprasEnComun(pNombre, pApellido);
+        int contador = 0;
+        String [] arreglo = new String[cantPro];
+        try (Session session = driver.session()) {
+        
+            Result result = session.run("CALL {Match(c:Cliente{first_name:'"+pNombre+"', last_name:'"+pApellido+"'}) Match (c)-[r1:realiza_una]->(:Compra)-[incluye_un]->(p:Producto) Match(p:Producto)<-[:incluye_un]-(:Compra)<-[r2:realiza_una]-(u:Cliente) where u.first_name <> '"+pNombre+"' and u.last_name <> '"+pNombre+"' RETURN u.first_name + \" \" + u.last_name AS Nombre, COLLECT(p.nombre) AS Productos ORDER BY(Nombre)} WITH Nombre, Productos WHERE SIZE(Productos) >=2 RETURN Nombre, Productos");
+            while (result.hasNext()) {
+                org.neo4j.driver.Record record = result.next();
+                String nombre = record.get("Nombre").asString();
+                for(int i=0; i < 1 ; i++){
+                    arreglo[contador] = nombre;
+                    System.out.println(arreglo[i]);
+                    contador++;
+                }
+            }
+            
+        }
+        return arreglo;
+    }
+    
+    
+    public  String[] getNombreClientesProductoComun(String pNombre, String pApellido) {
+        ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
+        
+        int cantPro=csv. cantidadComprasEnComun(pNombre, pApellido);
+        int contador = 0;
+        String [] arreglo = new String[cantPro];
+        try (Session session = driver.session()) {
+        
+            Result result = session.run("CALL {Match(c:Cliente{first_name:'"+pNombre+"', last_name:'"+pApellido+"'}) Match (c)-[r1:realiza_una]->(:Compra)-[incluye_un]->(p:Producto) Match(p:Producto)<-[:incluye_un]-(:Compra)<-[r2:realiza_una]-(u:Cliente) where u.first_name <> '"+pNombre+"' and u.last_name <> '"+pNombre+"' RETURN u.first_name + \" \" + u.last_name AS Nombre, COLLECT(p.nombre) AS Productos ORDER BY(Nombre)} WITH Nombre, Productos WHERE SIZE(Productos) >=2 RETURN Nombre, Productos");
+            while (result.hasNext()) {
+                org.neo4j.driver.Record record = result.next();
+                String producto = record.get("Productos").toString();
+                for(int i=0; i < 1 ; i++){
+                    arreglo[contador] = producto;
+                    System.out.println(arreglo[i]);
+                    contador++;
+                }
+            }
+            
+        }
+        return arreglo;
+    }
        
     public static void main(String[] args) throws Exception {
-<<<<<<< Updated upstream
        ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
        String nombre = "Yoghurt Tubes";
        csv.obtenerIDProducto(nombre);
        //System.out.println(trueFalse);
-=======
+
       /* ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
        csv.pruebaD();*/
->>>>>>> Stashed changes
     }
     
 }

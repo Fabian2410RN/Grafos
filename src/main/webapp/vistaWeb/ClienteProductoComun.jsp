@@ -23,7 +23,7 @@
         <div class="col-md-8 mx-auto">
             <div class="card mt-8 text-center">
                 <div class="card-header">
-                    <h1>Buscar compras de cliente</h1>
+                    <h1>Clientes y producto común</h1>
                     <div>
                         <img src="../imagenesVista/Imagen5.png"/>
                     </div>
@@ -31,18 +31,14 @@
                 <br>
               
                     
-                     <form method="post" action="<c:url value="/vistaWeb/buscarCliente"/>" >
+                     <form method="post" action="<c:url value="/vistaWeb/ClienteProductoComun"/>" >
                     <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" class "form-control" name = "nombre" placeholder="nombreCliente" required="El campo esta vacío">
-                    </div>
-                   <div class="form-group">
-                        <label>Apellido</label>
-                        <input type="text" class "form-control" name = "apellido" placeholder="apellidoCliente" required="El campo esta vacío">
+                        <label>Producto</label>
+                        <input type="text" class "form-control" name = "producto" placeholder="nombre del producto" required="El campo esta vacío">
                     </div>
                     <div class="form-group">
                         <button type="submit" class= "btn btn-primary">
-                            Ver compras del cliente
+                            Ver quienes más han comprado el producto
                         </button>
                         <br>
                         <br>
@@ -50,24 +46,20 @@
                             
                             ConexionBaseDeDatosNeo4j db = new ConexionBaseDeDatosNeo4j();
                             //int contador = 0;
-                            String nombreC = request.getParameter("nombre");
-                            String apellidoC = request.getParameter("apellido");
-                            System.out.println(nombreC);
-                            System.out.println(apellidoC);
-                            if(nombreC == null && apellidoC == null)
+                            String producto = request.getParameter("producto");
+                       
+                            if(producto == null)
                             {
                                 System.out.println("NO");
                                 //contador++;
                             }
                             else
                             {
-                                 int cant = db.cantidadComprasDeCliente(nombreC, apellidoC);
+                                 int cant = db.cantidadProductoComun(producto);
                                  String [] arregloNombre = new String[cant];
-                                 String [] arregloCantidad = new String[cant];
-                                 arregloNombre = db.getNombreProductosCliente(nombreC, apellidoC);
-                                 arregloCantidad = db.getCantidadProductosCliente(nombreC, apellidoC);
+                                 arregloNombre = db.getNombreClientesComun(producto);
                                  for(int i=0; i< cant; i++){
-                                 out.println("<br><tbody>" + arregloNombre[i] + "<p>" + "Cantidad: " + arregloCantidad[i] + "</p>" + "</tbody><br>");
+                                 out.println("<br><tbody>" +"Nombre: " + arregloNombre[i] + "<p>"+ "</p>" + "</tbody><br>");
                             }
                             
                             
@@ -75,19 +67,10 @@
                              
                         %>
                     </div>
-                    
                     <br>
                     <br>
                 </form>
-                <div class="col">
-                    <br>
-                    <br>
-                    <div>
-                    </div>
-                    <br>
-                    <br>
-                    <a class="btn btn-secondary" href="ClienteProductoComun.jsp">Ver quienes más han comprado alguno de estos productos</a>
-                </div>
+                    
                     
             </div>
         </div>

@@ -23,7 +23,7 @@
         <div class="col-md-8 mx-auto">
             <div class="card mt-8 text-center">
                 <div class="card-header">
-                    <h1>Buscar compras de cliente</h1>
+                    <h1>Ver compras en común de un cliente</h1>
                     <div>
                         <img src="../imagenesVista/Imagen5.png"/>
                     </div>
@@ -31,7 +31,7 @@
                 <br>
               
                     
-                     <form method="post" action="<c:url value="/vistaWeb/buscarCliente"/>" >
+                     <form method="post" action="<c:url value="/vistaWeb/clientesComun"/>" >
                     <div class="form-group">
                         <label>Nombre</label>
                         <input type="text" class "form-control" name = "nombre" placeholder="nombreCliente" required="El campo esta vacío">
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class= "btn btn-primary">
-                            Ver compras del cliente
+                            Ver compras en común
                         </button>
                         <br>
                         <br>
@@ -61,33 +61,25 @@
                             }
                             else
                             {
-                                 int cant = db.cantidadComprasDeCliente(nombreC, apellidoC);
+                                 int cant = db.cantidadComprasEnComun(nombreC, apellidoC);
                                  String [] arregloNombre = new String[cant];
-                                 String [] arregloCantidad = new String[cant];
-                                 arregloNombre = db.getNombreProductosCliente(nombreC, apellidoC);
-                                 arregloCantidad = db.getCantidadProductosCliente(nombreC, apellidoC);
+                                 String [] arregloProducto = new String[cant];
+                                 arregloNombre = db.getNombreClientesComun(nombreC, apellidoC);
+                                 arregloProducto = db.getNombreClientesProductoComun(nombreC, apellidoC);
                                  for(int i=0; i< cant; i++){
-                                 out.println("<br><tbody>" + arregloNombre[i] + "<p>" + "Cantidad: " + arregloCantidad[i] + "</p>" + "</tbody><br>");
+                                 out.println("<br><tbody>" + arregloNombre[i] + "<p>" + "Productos: " + arregloProducto[i] + "</p>" + "</tbody><br>");
                             }
                             
                             
                             }
-                             
+                            
+                            
+                            
                         %>
                     </div>
-                    
                     <br>
                     <br>
                 </form>
-                <div class="col">
-                    <br>
-                    <br>
-                    <div>
-                    </div>
-                    <br>
-                    <br>
-                    <a class="btn btn-secondary" href="ClienteProductoComun.jsp">Ver quienes más han comprado alguno de estos productos</a>
-                </div>
                     
             </div>
         </div>
