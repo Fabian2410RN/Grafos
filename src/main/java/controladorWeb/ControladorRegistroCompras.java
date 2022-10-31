@@ -53,8 +53,11 @@ public class ControladorRegistroCompras extends HttpServlet {
                         int idCliente = verificarExisteNodo.obtenerIDCliente(nombre, apellidos);
                         int idProducto = verificarExisteNodo.obtenerIDProducto(arregloProductos[i]);
                         int cantProducto = Integer.parseInt(arregloCantUnidades[i]);
-                        verificarExisteNodo.crearNodoCompra(idCliente, idProducto, cantProducto);
-                        System.out.println("Id cliente: "+ idCliente +" Id producto: "+ idProducto +" Cantidad: "+ cantProducto);
+                        int ultimaCompra = verificarExisteNodo.obtenerCantidadDeComprasConIdCompra();
+                        verificarExisteNodo.crearNodoCompra(ultimaCompra,idCliente, idProducto, cantProducto);
+                        verificarExisteNodo.crearRelacionClienteCompra(idCliente, ultimaCompra);
+                        verificarExisteNodo.crearRelacionCompraProducto(ultimaCompra, idProducto);
+                        System.out.println("Ultima compra: "+ ultimaCompra +" Id cliente: "+ idCliente +" Id producto: "+ idProducto +" Cantidad: "+ cantProducto);
                     } else{
                         request.getRequestDispatcher("RegistroCompras.jsp").forward(request, response);
                     }

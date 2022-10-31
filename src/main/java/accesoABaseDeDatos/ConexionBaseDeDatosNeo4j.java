@@ -60,13 +60,23 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
         }
     }
     
-    public void crearNodoCompra(int idCliente, int idProducto, int cantidad) {
+    public void crearNodoCompra(int idCompra, int idCliente, int idProducto, int cantidad) {
         
         try (Session session = driver.session()) {
-            session.run("Create (p:Compra {idCliente:'"+idCliente+"',idProducto:'"+idProducto+"',cantidad: '"+cantidad+"'})");
+            session.run("Create (p:Compra {idCompra: '"+idCompra+"', idCliente:'"+idCliente+"',idProducto:'"+idProducto+"',cantidad: '"+cantidad+"'})");
+        }
+    }
+    public void crearRelacionClienteCompra(int idCliente, int idCompra) {
+        try (Session session = driver.session()) {
+            session.run("MATCH (a:Cliente),(b:Compra) where a.id='"+idCliente+"' and b.idCompra='"+idCompra+"' Create (a)-[r:realiza_una]->(b)");
         }
     }
     
+    public void crearRelacionCompraProducto(int idCompra, int idProducto) {
+        try (Session session = driver.session()) {
+            session.run("MATCH (a:Compra),(b:Producto) where a.idCompra='"+idCompra+"' and b.id= '"+idProducto+"' Create (a)-[r:incluye_un]->(b)");
+        }
+    }
     
     
     //MODIFICAR CLIENTES Y PRODUCTOS
@@ -267,6 +277,31 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
             return idConvertido;
             }
         
+    }
+    
+    public  int obtenerCantidadDeComprasConIdCompra() {
+        String nombreB = "";
+        try (Session session = driver.session()) {
+            Result result = session.run("MATCH (n:Compra) RETURN n.idCompra as n");
+            //org.neo4j.driver.Record record = result.next();
+            //String id = record.get("id").asString();
+            //int idConvertido = Integer.parseInt(id);
+            //System.out.println(id);
+            
+            while (result.hasNext()) {
+                org.neo4j.driver.Record record = result.next();
+                nombreB = record.get("n").asString();
+                
+                //int cant = record.get("cantidadVendida").asInt();
+            }
+            System.out.println(nombreB);
+            if(nombreB == "null"){
+                return 1; 
+            }
+            
+        }  
+        int entero = Integer.parseInt(nombreB);
+        return entero+1;
     }
     /*
     public static void main(String... args) throws Exception {
@@ -713,6 +748,9 @@ public class ConexionBaseDeDatosNeo4j implements AutoCloseable {
 
       /* ConexionBaseDeDatosNeo4j csv = new ConexionBaseDeDatosNeo4j();
        csv.pruebaD();*/
+
+       
+       System.out.println(csv.obtenerCantidadDeComprasConIdCompra());
     }
     
 }
